@@ -1,0 +1,38 @@
+<@row>
+	<@columns>
+		<@messages infos=infos />
+		<@tform action='jsp/site/Portal.jsp?page=project'>
+			<@button type='submit' name='view_createProject' class='pull-right' buttonIcon='plus' title='#i18n{examplemuz.manage_projects.buttonAdd}' />
+		</@tform>
+
+    	<h4>#i18n{examplemuz.manage_projects.title}</h4>
+        
+    	<@table>
+			<tr>
+					<th>#i18n{examplemuz.manage_projects.columnName}</th>
+					<th>#i18n{examplemuz.manage_projects.columnDescription}</th>
+					<th>#i18n{examplemuz.manage_projects.columnImageUrl}</th>
+					<th>#i18n{portal.util.labelActions}</th>
+        	</tr>
+				<#list project_list as project >
+        	<tr>
+            <td>
+					${project.name}
+            </td>    
+            <td>
+					${project.description}
+            </td>    
+            <td>
+					${project.imageUrl}
+            </td>    
+			<td>
+				<@aButton href='jsp/site/Portal.jsp?page=project&view=modifyProject&id=${project.id}' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='pencil-square-o' />
+						
+				<@aButton href='jsp/site/Portal.jsp?page=project&action=confirmRemoveProject&id=${project.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' hideTitle=['all'] color='btn-danger' />
+			</td>
+        </tr>
+        </#list>
+    	</@table>
+	</@columns>
+</@row>
+

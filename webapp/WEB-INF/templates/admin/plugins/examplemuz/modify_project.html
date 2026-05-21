@@ -1,0 +1,25 @@
+<#include "manageproject_tabs.html" />
+<@tabs2 tab="project" />
+
+
+<@box>
+	<@boxHeader title='#i18n{examplemuz.modify_project.title}' />
+	<@boxBody>
+    <@tform class="form-horizontal" method="post" name="project" action="jsp/admin/plugins/examplemuz/ManageProjects.jsp" >
+			<@messages errors=errors />
+			<@input type="hidden" id="id" name="id" value="${project.id}"/>
+			<@input type="hidden" value="${token}" name="token" />
+			
+			<@formGroup labelFor='name' labelKey='#i18n{examplemuz.project.labelName}' mandatory=true>
+				<@input type='text' id='name' name='name'  maxlength=50 value=project.name!'' tabIndex='0' />
+			</@formGroup>
+			<@formGroup labelFor='description' labelKey='#i18n{examplemuz.project.labelDescription}' mandatory=true>
+				<@input type='text' id='description' name='description'  maxlength=255 value=project.description!'' tabIndex='1' />
+			</@formGroup>
+			<@formGroup labelFor='image_url' labelKey='#i18n{examplemuz.project.labelImageUrl}' mandatory=true>
+				<@input type='text' id='image_url' name='image_url'  maxlength=255 value=project.imageUrl!'' tabIndex='2' />
+			</@formGroup>
+        <@actionButtons button1Name="action_modifyProject" button2Name="view_manageProject"/>
+    </@tform>
+	</@boxBody>
+</@box>

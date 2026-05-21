@@ -1,0 +1,27 @@
+
+<@box>
+	<@boxHeader title='#i18n{examplemuz.create_project.title}' />
+	<@boxBody>
+		<@tform class='form-horizontal' action='jsp/site/Portal.jsp' >
+				<@messages errors=errors />
+				<@input type="hidden" id="id" name="id"/>
+				<@input type="hidden" value="${token}" name="token" />
+				<@input type="hidden" name="page" value="project" /> 
+
+          		<@formGroup labelFor='name' labelKey='#i18n{examplemuz.project.labelName}' helpKey='#i18n{examplemuz.project.labelName.help}' mandatory=true>
+					<@input type="text" id="name" name="name" value="${project.name!''}"  maxlength=50 tabIndex="1" />
+				</@formGroup>
+          		<@formGroup labelFor='description' labelKey='#i18n{examplemuz.project.labelDescription}' helpKey='#i18n{examplemuz.project.labelDescription.help}' mandatory=true>
+					<@input type="text" id="description" name="description" value="${project.description!''}"  maxlength=255 tabIndex="2" />
+				</@formGroup>
+          		<@formGroup labelFor='image_url' labelKey='#i18n{examplemuz.project.labelImageUrl}' helpKey='#i18n{examplemuz.project.labelImageUrl.help}' mandatory=true>
+					<@input type="text" id="image_url" name="image_url" value="${project.imageUrl!''}"  maxlength=255 tabIndex="3" />
+				</@formGroup>
+        		<@formGroup>
+          			<@button name='action_createProject' type='submit' tabIndex='3' title='#i18n{portal.util.labelCreate}' buttonIcon='plus' />
+					<@button name='view_manageProjects' type='submit' title='#i18n{portal.util.labelCancel}' buttonIcon='close' color='btn-secondary' cancel=true />
+				</@formGroup>
+    </@tform>
+	</@boxBody>
+</@box>
+

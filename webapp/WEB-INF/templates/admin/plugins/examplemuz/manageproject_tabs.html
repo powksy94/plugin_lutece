@@ -1,0 +1,9 @@
+<#macro tabs2 tab >
+<@tabs>
+	<@tabList>
+				<@tabLink active=(tab=="project")
+					title="#i18n{examplemuz.manage_projects.pageTitle}"
+			    	href="jsp/admin/plugins/examplemuz/ManageProjects.jsp" />
+	</@tabList>
+</@tabs>
+</#macro>
