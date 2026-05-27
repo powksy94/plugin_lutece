@@ -34,6 +34,9 @@
 package fr.paris.lutece.plugins.examplemuz.business;
 
 import javax.validation.constraints.Size;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Max;
+import fr.paris.lutece.plugins.examplemuz.validation.MultipleOf;
 import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 import java.io.Serializable;
@@ -130,7 +133,22 @@ public class Project implements Serializable
      */ 
     public void setImageUrl( String strImageUrl )
     {
-        _strImageUrl = strImageUrl;
+        _strImageUrl = strImageUrl;  
+    }
+
+    @Min( value = 5, message = "#i18n{examplemuz.validation.project.Cost.min}" )
+    @Max( value = 25, message = "#i18n{examplemuz.validation.project.Cost.max}" )
+    @MultipleOf( value = 5 )
+    private int _nCost;
+
+    public int getCost( )
+    {
+        return _nCost;
+    }
+
+    public void setCost( int nCost )
+    {
+        _nCost = nCost;
     }
     
 }

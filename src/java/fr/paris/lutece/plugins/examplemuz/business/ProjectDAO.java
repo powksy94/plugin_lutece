@@ -54,11 +54,11 @@ import org.apache.commons.lang3.StringUtils;
 public final class ProjectDAO extends AbstractFilterDao implements IProjectDAO
 {
     // Constants
-    private static final String SQL_QUERY_INSERT = "INSERT INTO examplemuz_ ( name, description, image_url ) VALUES ( ?, ?, ? ) ";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO examplemuz_ ( name, description, image_url, cost ) VALUES ( ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM examplemuz_ WHERE id_project = ? ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE examplemuz_ SET name = ?, description = ?, image_url = ? WHERE id_project = ?";
+    private static final String SQL_QUERY_UPDATE = "UPDATE examplemuz_ SET name = ?, description = ?, image_url = ?, cost = ? WHERE id_project = ?";
    
-	private static final String SQL_QUERY_SELECTALL = "SELECT id_project, name, description, image_url FROM examplemuz_";
+	private static final String SQL_QUERY_SELECTALL = "SELECT id_project, name, description, image_url, cost FROM examplemuz_";
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_project FROM examplemuz_";
 
     private static final String SQL_QUERY_SELECTALL_BY_IDS = SQL_QUERY_SELECTALL + " WHERE id_project IN (  ";
@@ -85,6 +85,7 @@ public final class ProjectDAO extends AbstractFilterDao implements IProjectDAO
             daoUtil.setString( nIndex++ , project.getName( ) );
             daoUtil.setString( nIndex++ , project.getDescription( ) );
             daoUtil.setString( nIndex++ , project.getImageUrl( ) );
+            daoUtil.setInt( nIndex++ , project.getCost( ) );
             
             daoUtil.executeUpdate( );
             if ( daoUtil.nextGeneratedKey( ) ) 
@@ -142,7 +143,8 @@ public final class ProjectDAO extends AbstractFilterDao implements IProjectDAO
             	daoUtil.setString( nIndex++ , project.getName( ) );
             	daoUtil.setString( nIndex++ , project.getDescription( ) );
             	daoUtil.setString( nIndex++ , project.getImageUrl( ) );
-	        daoUtil.setInt( nIndex , project.getId( ) );
+	        daoUtil.setInt( nIndex++ , project.getCost( ) );
+            daoUtil.setInt( nIndex , project.getId( ) );
 	
 	        daoUtil.executeUpdate( );
         }
@@ -267,7 +269,8 @@ public final class ProjectDAO extends AbstractFilterDao implements IProjectDAO
 		project.setId( daoUtil.getInt( nIndex++ ) );
 		project.setName( daoUtil.getString( nIndex++ ) );
 		project.setDescription( daoUtil.getString( nIndex++ ) );
-		project.setImageUrl( daoUtil.getString( nIndex ) );
+		project.setImageUrl( daoUtil.getString( nIndex++ ) );
+        project.setCost( daoUtil.getInt( nIndex ) );
 		
 		return project;
 	}
