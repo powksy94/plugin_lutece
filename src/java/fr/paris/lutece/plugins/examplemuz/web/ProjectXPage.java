@@ -65,6 +65,7 @@ public class ProjectXPage extends MVCApplication
     private static final String TEMPLATE_MANAGE_PROJECTS = "/skin/plugins/examplemuz/manage_projects.html";
     private static final String TEMPLATE_CREATE_PROJECT = "/skin/plugins/examplemuz/create_project.html";
     private static final String TEMPLATE_MODIFY_PROJECT = "/skin/plugins/examplemuz/modify_project.html";
+    private static final String TEMPLATE_DETAILS_PROJECT = "/skin/plugins/examplemuz/details_project.html";
     
     // Parameters
     private static final String PARAMETER_ID_PROJECT = "id";
@@ -80,6 +81,7 @@ public class ProjectXPage extends MVCApplication
     private static final String VIEW_MANAGE_PROJECTS = "manageProjects";
     private static final String VIEW_CREATE_PROJECT = "createProject";
     private static final String VIEW_MODIFY_PROJECT = "modifyProject";
+    private static final String VIEW_DETAILS_PROJECT = "detailsProject";
 
     // Actions
     private static final String ACTION_CREATE_PROJECT = "createProject";
@@ -113,6 +115,19 @@ public class ProjectXPage extends MVCApplication
         model.put( MARK_PROJECT_LIST, listProjects );
         
         return getXPage( TEMPLATE_MANAGE_PROJECTS, getLocale( request ), model );
+    }
+
+    @View( VIEW_DETAILS_PROJECT )
+    public XPage getDetailsProject( HttpServletRequest request )
+    {
+        int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_PROJECT ) );
+        Optional<Project> optProject = ProjectHome.findByPrimaryKey( nId );
+        Project project = optProject.orElseThrow( ( ) -> new AppException( ERROR_RESOURCE_NOT_FOUND ) );
+
+        Map<String, Object> model = getModel( );
+        model.put( MARK_PROJECT, project );
+
+        return getXPage( TEMPLATE_DETAILS_PROJECT, getLocale( request ), model );
     }
 
     /**

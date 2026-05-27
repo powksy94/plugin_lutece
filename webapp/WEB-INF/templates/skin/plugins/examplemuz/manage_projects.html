@@ -14,7 +14,9 @@
 				<div class="card h-100 shadow-sm">
 					<img src="${project.imageUrl}" class="card-img-top" alt="${project.name}" style="object-fit: cover; height: 180px;">
 					<div class="card-body">
-						<h5 class="card-title">${project.name}</h5>
+						<h5 class="card-title">
+							<a href="jsp/site/Portal.jsp?page=project&view=detailsProject&id=${project.id}">${project.name}</a>
+						</h5>
 						<p class="card-text text-muted">${project.description}</p>
 					</div>
 					<div class="card-footer d-flex justify-content-end gap-2">

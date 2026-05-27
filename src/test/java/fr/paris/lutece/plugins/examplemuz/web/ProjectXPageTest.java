@@ -83,7 +83,7 @@ public void testXPage(  ) throws AccessDeniedException, IOException
 		
 		
 		//modify Project	
-		List<Integer> listIds = ProjectHome.getIdProjectsList(); 
+		List<Integer> listIds = ProjectHome.getIdProjectsList( new java.util.HashMap<>( ), null, null );
 
 		assertTrue( !listIds.isEmpty( ) );
 

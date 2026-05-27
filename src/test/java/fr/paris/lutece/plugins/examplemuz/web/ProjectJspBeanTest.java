@@ -114,7 +114,7 @@ public void testJspBeans(  ) throws AccessDeniedException, IOException
         request.addParameter( "name" , NAME1 );
         request.addParameter( "description" , DESCRIPTION1 );
         request.addParameter( "image_url" , IMAGEURL1 );
-		List<Integer> listIds = ProjectHome.getIdProjectsList();
+		List<Integer> listIds = ProjectHome.getIdProjectsList( new java.util.HashMap<>( ), null, null );
         assertTrue( !listIds.isEmpty( ) );
         request.addParameter( "id", String.valueOf( listIds.get( 0 ) ) );
 		jspbean = new ProjectJspBean();
