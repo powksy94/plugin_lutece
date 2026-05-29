@@ -57,6 +57,8 @@ public class ProjectXPageTest extends LuteceTestCase
     private static final String DESCRIPTION2 = "Description2";
 	private static final String IMAGEURL1 = "http://imageurl1.com";
     private static final String IMAGEURL2 = "http://imageurl2.com";
+	private static final int COST1 = 10;
+	private static final int COST2 = 25;
 
 public void testXPage(  ) throws AccessDeniedException, IOException
 	{
@@ -77,6 +79,7 @@ public void testXPage(  ) throws AccessDeniedException, IOException
         request.addParameter( "name" , NAME1 );
         request.addParameter( "description" , DESCRIPTION1 );
         request.addParameter( "image_url" , IMAGEURL1 );
+		request.addParameter("cost", String.valueOf( COST1 ) );
 		request.setMethod( "POST" );
 		
 		assertNotNull( xpage.doCreateProject( request ) );
@@ -99,6 +102,7 @@ public void testXPage(  ) throws AccessDeniedException, IOException
         request.addParameter( "name" , NAME2 );
         request.addParameter( "description" , DESCRIPTION2 );
         request.addParameter( "image_url" , IMAGEURL2 );
+		request.addParameter("cost", String.valueOf( COST2 ) );
 
 		request.addParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "modifyProject" ));
 		request.addParameter( "id", String.valueOf( listIds.get( 0 ) ) );

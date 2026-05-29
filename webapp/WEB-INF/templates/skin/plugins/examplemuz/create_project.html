@@ -17,6 +17,9 @@
           		<@formGroup labelFor='image_url' labelKey='#i18n{examplemuz.project.labelImageUrl}' helpKey='#i18n{examplemuz.project.labelImageUrl.help}' mandatory=true>
 					<@input type="text" id="image_url" name="image_url" value="${project.imageUrl!''}"  maxlength=255 tabIndex="3" />
 				</@formGroup>
+				<@formGroup labelFor='cost' labelKey='#i18n{examplemuz.project.labelCost}' helpKey='#i18n{examplemuz.project.labelCost.help}' mandatory=true>
+					<@input type="number" id="cost" name="cost" value="${project.cost!''}" min=5 max=25 tabIndex="4" />
+				</@formGroup>
         		<@formGroup>
           			<@button name='action_createProject' type='submit' tabIndex='3' title='#i18n{portal.util.labelCreate}' buttonIcon='plus' />
 					<@button name='view_manageProjects' type='submit' title='#i18n{portal.util.labelCancel}' buttonIcon='close' color='btn-secondary' cancel=true />
