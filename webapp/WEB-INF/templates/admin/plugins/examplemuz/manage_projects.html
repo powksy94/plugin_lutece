@@ -44,6 +44,7 @@
              <th>#i18n{examplemuz.manage_projects.columnName}&nbsp;<a href='jsp/admin/plugins/examplemuz/ManageProjects.jsp?orderBy=name'><i class='fas fa-sort'></i></a></th>
              <th>#i18n{examplemuz.manage_projects.columnDescription}&nbsp;<a href='jsp/admin/plugins/examplemuz/ManageProjects.jsp?orderBy=description'><i class='fas fa-sort'></i></a></th>
              <th>#i18n{examplemuz.manage_projects.columnImageUrl}&nbsp;<a href='jsp/admin/plugins/examplemuz/ManageProjects.jsp?orderBy=image_url'><i class='fas fa-sort'></i></a></th>
+			 <th>#i18n{examplemuz.manage_projects.columnCost}</th>
             <th>#i18n{portal.util.labelActions}</th>
         </tr>
         <@tableHeadBodySeparator />
@@ -56,7 +57,10 @@
 				${project.description!''}
 			</td>
             <td>
-				${project.imageUrl!''}
+				<img src="${project.imageUrl!''}" alt="${project.name!''}" style="height: 60px; object-fit: cover;">
+			</td>
+			<td>
+				${(project.cost * 1000000)?string.number} €
 			</td>
         	<td>
 				<@aButton href='jsp/admin/plugins/examplemuz/ManageProjects.jsp?view=modifyProject&id=${project.id}' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='pencil' />

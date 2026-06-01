@@ -16,6 +16,9 @@
 			<@formGroup labelFor='image_url' labelKey='#i18n{examplemuz.project.labelImageUrl}' mandatory=true>
 					<@input type='text' id='image_url' name='image_url'  maxlength=255 value=project.imageUrl!'' tabIndex='2' />
 			</@formGroup>
+			<@formGroup labelFor='cost' labelKey='#i18n{examplemuz.project.labelCost}' mandatory=true>
+					<@input type='number' id='cost' name='cost' min=5 max=25 value=project.cost!'' tabIndex='3' />
+			</@formGroup>
 				
 		<@actionButtons button1Name="action_createProject" button2Name="view_manageProject"/>
     </@tform>
