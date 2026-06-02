@@ -4,3 +4,4 @@ target/
 .vscode/
 .idea/
 *.iml
+java.io.tmpdir/
