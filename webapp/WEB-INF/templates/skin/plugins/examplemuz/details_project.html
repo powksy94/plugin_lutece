@@ -11,7 +11,7 @@
             <div class="card-body">
                 <h3 class="card-title">${project.name}</h3>
                 <p class="card-text">${project.description}</p>
-                <p class="text-muted small">#i18n{examplemuz.project.labelCost} : ${(project.cost* 1000000)?string.number} €</p>
+                <p class="text-muted small">#i18n{examplemuz.project.labelCost} : ${project.costInEuros} €</p>
                 <p class="text-muted small">#i18n{examplemuz.details_project.labelId} : ${project.id}</p>
             </div>
         </div>

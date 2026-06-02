@@ -60,7 +60,7 @@
 				<img src="${project.imageUrl!''}" alt="${project.name!''}" style="height: 60px; object-fit: cover;">
 			</td>
 			<td>
-				${(project.cost * 1000000)?string.number} €
+				${project.costInEuros} €
 			</td>
         	<td>
 				<@aButton href='jsp/admin/plugins/examplemuz/ManageProjects.jsp?view=modifyProject&id=${project.id}' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='pencil' />

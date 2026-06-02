@@ -146,6 +146,11 @@ public class Project implements Serializable
         return _nCost;
     }
 
+    public long getCostInEuros( )
+    {
+        return (long) _nCost * 1000000;
+    }
+
     public void setCost( int nCost )
     {
         _nCost = nCost;
