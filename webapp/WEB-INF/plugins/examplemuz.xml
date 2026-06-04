@@ -132,4 +132,11 @@
     
     <!-- see  lutece-core/webapp/WEB-INF/plugins/plugin_*.dtd -->
 
+    <!-- REST services -->
+    <rest-services>
+        <rest-service>
+            <rest-service-class>fr.paris.lutece.plugins.examplemuz.rs.ProjectRestService</rest-service-class>
+        </rest-service>
+    </rest-services>
+
 </plug-in>
