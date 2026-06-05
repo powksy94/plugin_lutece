@@ -11,6 +11,9 @@
             <div class="card-body">
                 <h3 class="card-title">${project.name}</h3>
                 <p class="card-text">${project.description}</p>
+                    @Extender[${project.id},project,hit,{show:true}]@
+                    @Extender[${project.id},project,rating]@
+                    @Extender[${project.id},project,comment]@
                 <p class="text-muted small">#i18n{examplemuz.project.labelCost} : ${project.costInEuros} €</p>
                 <p class="text-muted small">#i18n{examplemuz.details_project.labelId} : ${project.id}</p>
             </div>

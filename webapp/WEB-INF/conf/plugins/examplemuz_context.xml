@@ -5,6 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" >
 
     <bean id="examplemuz.projectDAO" class="fr.paris.lutece.plugins.examplemuz.business.ProjectDAO" />
-
+    <bean id="examplemuz.ProjectRest" class="fr.paris.lutece.plugins.examplemuz.rs.ProjectRestService" />
+    <bean id="examplemuz.projectExtendableResourceService" class="fr.paris.lutece.plugins.examplemuz.business.ProjectExtendableResourceService" />
 
 </beans>

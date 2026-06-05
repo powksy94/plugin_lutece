@@ -40,10 +40,11 @@ import fr.paris.lutece.plugins.examplemuz.validation.MultipleOf;
 import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 import java.io.Serializable;
+import fr.paris.lutece.portal.service.resource.IExtendableResource;
 /**
  * This is the business class for the object Project
- */ 
-public class Project implements Serializable
+ */
+public class Project implements Serializable, IExtendableResource
 {
     private static final long serialVersionUID = 1L;
 
@@ -155,5 +156,37 @@ public class Project implements Serializable
     {
         _nCost = nCost;
     }
-    
+
+    public static final String PROPERTY_RESOURCE_TYPE = "project";
+
+    @Override
+    public String getIdExtendableResource( )
+    {
+        return Integer.toString( _nId );
+    }
+
+    @Override
+    public String getExtendableResourceType( )
+    {
+        return PROPERTY_RESOURCE_TYPE;
+    }
+
+    @Override
+    public String getExtendableResourceName( )
+    {
+        return _strName;
+    }
+
+    @Override
+    public String getExtendableResourceDescription( )
+    {
+        return _strDescription;
+    }
+
+    @Override
+    public String getExtendableResourceImageUrl( )
+    {
+        return _strImageUrl;
+    }
+
 }

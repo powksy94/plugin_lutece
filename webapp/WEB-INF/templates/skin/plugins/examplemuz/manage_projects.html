@@ -18,6 +18,8 @@
 							<a href="jsp/site/Portal.jsp?page=project&view=detailsProject&id=${project.id}">${project.name}</a>
 						</h5>
 						<p class="card-text text-muted">${project.description}</p>
+							@Extender[${project.id},project,hit,{show:true}]@
+							@Extender[${project.id},project,rating,{show:["vote"]}]@
 					</div>
 					<div class="card-footer d-flex justify-content-end gap-2">
 						<@aButton href='jsp/site/Portal.jsp?page=project&view=modifyProject&id=${project.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil-square-o' />
@@ -29,4 +31,3 @@
 		</div>
 	</@columns>
 </@row>
-
