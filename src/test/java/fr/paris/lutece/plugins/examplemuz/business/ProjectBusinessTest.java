@@ -28,16 +28,14 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *"
+ *
  * License 1.0
  */
-
 package fr.paris.lutece.plugins.examplemuz.business;
 
 import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.Optional;
-
 
 /**
  * This is the business class test for the object Project
@@ -51,13 +49,13 @@ public class ProjectBusinessTest extends LuteceTestCase
     private static final String IMAGEURL1 = "ImageUrl1";
     private static final String IMAGEURL2 = "ImageUrl2";
 
-	/**
-	* test Project
-	*/
-    public void testBusiness(  )
+    /**
+     * test Project
+     */
+    public void testBusiness( )
     {
         // Initialize an object
-        Project project = new Project();
+        Project project = new Project( );
         project.setName( NAME1 );
         project.setDescription( DESCRIPTION1 );
         project.setImageUrl( IMAGEURL1 );
@@ -65,10 +63,10 @@ public class ProjectBusinessTest extends LuteceTestCase
         // Create test
         ProjectHome.create( project );
         Optional<Project> optProjectStored = ProjectHome.findByPrimaryKey( project.getId( ) );
-        Project projectStored = optProjectStored.orElse( new Project ( ) );
-        assertEquals( projectStored.getName( ) , project.getName( ) );
-        assertEquals( projectStored.getDescription( ) , project.getDescription( ) );
-        assertEquals( projectStored.getImageUrl( ) , project.getImageUrl( ) );
+        Project projectStored = optProjectStored.orElse( new Project( ) );
+        assertEquals( projectStored.getName( ), project.getName( ) );
+        assertEquals( projectStored.getDescription( ), project.getDescription( ) );
+        assertEquals( projectStored.getImageUrl( ), project.getImageUrl( ) );
 
         // Update test
         project.setName( NAME2 );
@@ -76,11 +74,11 @@ public class ProjectBusinessTest extends LuteceTestCase
         project.setImageUrl( IMAGEURL2 );
         ProjectHome.update( project );
         optProjectStored = ProjectHome.findByPrimaryKey( project.getId( ) );
-        projectStored = optProjectStored.orElse( new Project ( ) );
-        
-        assertEquals( projectStored.getName( ) , project.getName( ) );
-        assertEquals( projectStored.getDescription( ) , project.getDescription( ) );
-        assertEquals( projectStored.getImageUrl( ) , project.getImageUrl( ) );
+        projectStored = optProjectStored.orElse( new Project( ) );
+
+        assertEquals( projectStored.getName( ), project.getName( ) );
+        assertEquals( projectStored.getDescription( ), project.getDescription( ) );
+        assertEquals( projectStored.getImageUrl( ), project.getImageUrl( ) );
 
         // List test
         ProjectHome.getProjectsList( );
@@ -90,10 +88,7 @@ public class ProjectBusinessTest extends LuteceTestCase
         optProjectStored = ProjectHome.findByPrimaryKey( project.getId( ) );
         projectStored = optProjectStored.orElse( null );
         assertNull( projectStored );
-        
+
     }
-    
-    
-     
 
 }

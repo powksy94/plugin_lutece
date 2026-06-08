@@ -31,8 +31,7 @@
  *
  * License 1.0
  */
- 	
- 
+
 package fr.paris.lutece.plugins.examplemuz.web;
 
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -58,7 +57,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
-
 import fr.paris.lutece.plugins.examplemuz.business.Project;
 import fr.paris.lutece.plugins.examplemuz.business.ProjectHome;
 
@@ -66,12 +64,12 @@ import fr.paris.lutece.plugins.examplemuz.business.ProjectHome;
  * This class provides the user interface to manage Project features ( manage, create, modify, remove )
  */
 @Controller( controllerJsp = "ManageProjects.jsp", controllerPath = "jsp/admin/plugins/examplemuz/", right = "PROJECT_MANAGEMENT" )
-public class ProjectJspBean extends AbstractJspBean <Integer, Project>
+public class ProjectJspBean extends AbstractJspBean<Integer, Project>
 {
 
-	// Rights
-	public static final String RIGHT_MANAGEPROJECT = "PROJECT_MANAGEMENT";
-		
+    // Rights
+    public static final String RIGHT_MANAGEPROJECT = "PROJECT_MANAGEMENT";
+
     // Templates
     private static final String TEMPLATE_MANAGE_PROJECTS = "/admin/plugins/examplemuz/manage_projects.html";
     private static final String TEMPLATE_CREATE_PROJECT = "/admin/plugins/examplemuz/create_project.html";
@@ -112,100 +110,103 @@ public class ProjectJspBean extends AbstractJspBean <Integer, Project>
     private static final String INFO_PROJECT_CREATED = "examplemuz.info.project.created";
     private static final String INFO_PROJECT_UPDATED = "examplemuz.info.project.updated";
     private static final String INFO_PROJECT_REMOVED = "examplemuz.info.project.removed";
-    
+
     // Errors
     private static final String ERROR_RESOURCE_NOT_FOUND = "Resource not found";
-    
+
     // Session variable to store working values
     private Project _project;
     private List<Integer> _listIdProjects;
-    private HashMap<String,String> _mapFilterCriteria = new HashMap<>();
+    private HashMap<String, String> _mapFilterCriteria = new HashMap<>( );
     private String _optionOrderBy;
-    
+
     /**
      * Build the Manage View
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The page
      */
     @View( value = VIEW_MANAGE_PROJECTS, defaultView = true )
     public String getManageProjects( HttpServletRequest request )
     {
         _project = null;
-        
+
         // new search only if in pagination mode
-        if ( request.getParameter( AbstractPaginator.PARAMETER_PAGE_INDEX) == null )
+        if ( request.getParameter( AbstractPaginator.PARAMETER_PAGE_INDEX ) == null )
         {
-        	// if sorting request : new search with the existing filter criteria, ordered 
-        	// example of order by parameter : orderby=name
-        	if ( StringUtils.isNotBlank( (String)request.getParameter(PARAMETER_SEARCH_ORDER_BY) ) )
-        	{
-        		
-        		String strOrderByColumn =  (String)request.getParameter(PARAMETER_SEARCH_ORDER_BY);
-        		String strSortMode = getSortMode(); 
-        		
-        		_listIdProjects = ProjectHome.getIdProjectsList( _mapFilterCriteria, strOrderByColumn, strSortMode );
-               	
-	       	}
-	       	else
-	       	{
-	       		// reload the filter criteria and search
-	       		_mapFilterCriteria = (HashMap<String, String>) getFilterCriteriaFromRequest( request );
-	       		_listIdProjects = ProjectHome.getIdProjectsList( _mapFilterCriteria, null ,null);
-	       	}
-        	
-        	//set CurrentPageIndex of Paginator to null in aim of displays the first page of results
-        	resetCurrentPageIndexOfPaginator();
+            // if sorting request : new search with the existing filter criteria, ordered
+            // example of order by parameter : orderby=name
+            if ( StringUtils.isNotBlank( (String) request.getParameter( PARAMETER_SEARCH_ORDER_BY ) ) )
+            {
+
+                String strOrderByColumn = (String) request.getParameter( PARAMETER_SEARCH_ORDER_BY );
+                String strSortMode = getSortMode( );
+
+                _listIdProjects = ProjectHome.getIdProjectsList( _mapFilterCriteria, strOrderByColumn, strSortMode );
+
+            }
+            else
+            {
+                // reload the filter criteria and search
+                _mapFilterCriteria = (HashMap<String, String>) getFilterCriteriaFromRequest( request );
+                _listIdProjects = ProjectHome.getIdProjectsList( _mapFilterCriteria, null, null );
+            }
+
+            // set CurrentPageIndex of Paginator to null in aim of displays the first page of results
+            resetCurrentPageIndexOfPaginator( );
         }
-       	
-       	Map<String, Object> model = getPaginatedListModel( request, MARK_PROJECT_LIST, _listIdProjects, JSP_MANAGE_PROJECTS );
-             
-        addSearchParameters(model,_mapFilterCriteria); //allow the persistence of search values in inputs search bar inputs
-                     
+
+        Map<String, Object> model = getPaginatedListModel( request, MARK_PROJECT_LIST, _listIdProjects, JSP_MANAGE_PROJECTS );
+
+        addSearchParameters( model, _mapFilterCriteria ); // allow the persistence of search values in inputs search bar inputs
+
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_PROJECTS, TEMPLATE_MANAGE_PROJECTS, model );
 
     }
 
-	/**
+    /**
      * Get Items from Ids list
+     * 
      * @param listIds
      * @return the populated list of items corresponding to the id List
      */
-	@Override
-	List<Project> getItemsFromIds( List<Integer> listIds ) 
-	{
-		List<Project> listProject = ProjectHome.getProjectsListByIds( listIds );
-		
-		// keep original order
-        return listProject.stream()
-                 .sorted(Comparator.comparingInt( notif -> listIds.indexOf( notif.getId())))
-                 .collect(Collectors.toList());
-	}
-	
-	@Override
-	int getPluginDefaultNumberOfItemPerPage( ) {
-		return AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_LIST_ITEM_PER_PAGE, 50 );
-	}
-    
+    @Override
+    List<Project> getItemsFromIds( List<Integer> listIds )
+    {
+        List<Project> listProject = ProjectHome.getProjectsListByIds( listIds );
+
+        // keep original order
+        return listProject.stream( ).sorted( Comparator.comparingInt( notif -> listIds.indexOf( notif.getId( ) ) ) ).collect( Collectors.toList( ) );
+    }
+
+    @Override
+    int getPluginDefaultNumberOfItemPerPage( )
+    {
+        return AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_LIST_ITEM_PER_PAGE, 50 );
+    }
+
     /**
-    * reset the _listIdProjects list
-    */
+     * reset the _listIdProjects list
+     */
     public void resetListId( )
     {
-    	_listIdProjects = new ArrayList<>( );
+        _listIdProjects = new ArrayList<>( );
     }
 
     /**
      * Returns the form to create a project
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the html code of the project form
      */
     @View( VIEW_CREATE_PROJECT )
     public String getCreateProject( HttpServletRequest request )
     {
-        _project = ( _project != null ) ? _project : new Project(  );
+        _project = ( _project != null ) ? _project : new Project( );
 
-        Map<String, Object> model = getModel(  );
+        Map<String, Object> model = getModel( );
         model.put( MARK_PROJECT, _project );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, ACTION_CREATE_PROJECT ) );
 
@@ -215,7 +216,8 @@ public class ProjectJspBean extends AbstractJspBean <Integer, Project>
     /**
      * Process the data capture form of a new project
      *
-     * @param request The Http Request
+     * @param request
+     *            The Http Request
      * @return The Jsp URL of the process result
      * @throws AccessDeniedException
      */
@@ -223,11 +225,10 @@ public class ProjectJspBean extends AbstractJspBean <Integer, Project>
     public String doCreateProject( HttpServletRequest request ) throws AccessDeniedException
     {
         populate( _project, request, getLocale( ) );
-        
 
         if ( !SecurityTokenService.getInstance( ).validate( request, ACTION_CREATE_PROJECT ) )
         {
-            throw new AccessDeniedException ( "Invalid security token" );
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         // Check constraints
@@ -237,17 +238,17 @@ public class ProjectJspBean extends AbstractJspBean <Integer, Project>
         }
 
         ProjectHome.create( _project );
-        addInfo( INFO_PROJECT_CREATED, getLocale(  ) );
+        addInfo( INFO_PROJECT_CREATED, getLocale( ) );
         resetListId( );
 
         return redirectView( request, VIEW_MANAGE_PROJECTS );
     }
 
     /**
-     * Manages the removal form of a project whose identifier is in the http
-     * request
+     * Manages the removal form of a project whose identifier is in the http request
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the html code to confirm
      */
     @Action( ACTION_CONFIRM_REMOVE_PROJECT )
@@ -257,7 +258,7 @@ public class ProjectJspBean extends AbstractJspBean <Integer, Project>
         UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_PROJECT ) );
         url.addParameter( PARAMETER_ID_PROJECT, nId );
 
-        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_PROJECT, url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
+        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_PROJECT, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
 
         return redirect( request, strMessageUrl );
     }
@@ -265,17 +266,17 @@ public class ProjectJspBean extends AbstractJspBean <Integer, Project>
     /**
      * Handles the removal form of a project
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the jsp URL to display the form to manage projects
      */
     @Action( ACTION_REMOVE_PROJECT )
     public String doRemoveProject( HttpServletRequest request )
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_PROJECT ) );
-        
-        
+
         ProjectHome.remove( nId );
-        addInfo( INFO_PROJECT_REMOVED, getLocale(  ) );
+        addInfo( INFO_PROJECT_REMOVED, getLocale( ) );
         resetListId( );
 
         return redirectView( request, VIEW_MANAGE_PROJECTS );
@@ -284,7 +285,8 @@ public class ProjectJspBean extends AbstractJspBean <Integer, Project>
     /**
      * Returns the form to update info about a project
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return The HTML form to update info
      */
     @View( VIEW_MODIFY_PROJECT )
@@ -292,14 +294,13 @@ public class ProjectJspBean extends AbstractJspBean <Integer, Project>
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_PROJECT ) );
 
-        if ( _project == null || ( _project.getId(  ) != nId ) )
+        if ( _project == null || ( _project.getId( ) != nId ) )
         {
             Optional<Project> optProject = ProjectHome.findByPrimaryKey( nId );
-            _project = optProject.orElseThrow( ( ) -> new AppException(ERROR_RESOURCE_NOT_FOUND ) );
+            _project = optProject.orElseThrow( ( ) -> new AppException( ERROR_RESOURCE_NOT_FOUND ) );
         }
 
-
-        Map<String, Object> model = getModel(  );
+        Map<String, Object> model = getModel( );
         model.put( MARK_PROJECT, _project );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, ACTION_MODIFY_PROJECT ) );
 
@@ -309,19 +310,19 @@ public class ProjectJspBean extends AbstractJspBean <Integer, Project>
     /**
      * Process the change form of a project
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return The Jsp URL of the process result
      * @throws AccessDeniedException
      */
     @Action( ACTION_MODIFY_PROJECT )
     public String doModifyProject( HttpServletRequest request ) throws AccessDeniedException
-    {   
+    {
         populate( _project, request, getLocale( ) );
-		
-		
+
         if ( !SecurityTokenService.getInstance( ).validate( request, ACTION_MODIFY_PROJECT ) )
         {
-            throw new AccessDeniedException ( "Invalid security token" );
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         // Check constraints
@@ -331,7 +332,7 @@ public class ProjectJspBean extends AbstractJspBean <Integer, Project>
         }
 
         ProjectHome.update( _project );
-        addInfo( INFO_PROJECT_UPDATED, getLocale(  ) );
+        addInfo( INFO_PROJECT_UPDATED, getLocale( ) );
         resetListId( );
 
         return redirectView( request, VIEW_MANAGE_PROJECTS );

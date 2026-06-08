@@ -23,7 +23,7 @@
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES LOSS OF USE, DATA, OR PROFITS OR BUSINESS
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
@@ -31,7 +31,6 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.plugins.examplemuz.web;
 
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -46,6 +45,7 @@ import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.plugins.examplemuz.business.Project;
 import fr.paris.lutece.plugins.examplemuz.business.ProjectHome;
+
 /**
  * This is the business class test for the object Project
  */
@@ -55,85 +55,85 @@ public class ProjectXPageTest extends LuteceTestCase
     private static final String NAME2 = "Name2";
     private static final String DESCRIPTION1 = "Description1";
     private static final String DESCRIPTION2 = "Description2";
-	private static final String IMAGEURL1 = "http://imageurl1.com";
+    private static final String IMAGEURL1 = "http://imageurl1.com";
     private static final String IMAGEURL2 = "http://imageurl2.com";
-	private static final int COST1 = 10;
-	private static final int COST2 = 25;
+    private static final int COST1 = 10;
+    private static final int COST2 = 25;
 
-public void testXPage(  ) throws AccessDeniedException, IOException
-	{
+    public void testXPage( ) throws AccessDeniedException, IOException
+    {
         // Xpage create test
         MockHttpServletRequest request = new MockHttpServletRequest( );
-		MockHttpServletResponse response = new MockHttpServletResponse( );
-		MockServletConfig config = new MockServletConfig( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
+        MockServletConfig config = new MockServletConfig( );
 
-		ProjectXPage xpage = new ProjectXPage( );
-		assertNotNull( xpage.getCreateProject( request ) );
-		
-		request = new MockHttpServletRequest();
-		request.addParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "createProject" ));
-		
-		LocalVariables.setLocal(config, request, response);
-		
-		request.addParameter( "action" , "createProject" );
-        request.addParameter( "name" , NAME1 );
-        request.addParameter( "description" , DESCRIPTION1 );
-        request.addParameter( "image_url" , IMAGEURL1 );
-		request.addParameter("cost", String.valueOf( COST1 ) );
-		request.setMethod( "POST" );
-		
-		assertNotNull( xpage.doCreateProject( request ) );
-		
-		
-		//modify Project	
-		List<Integer> listIds = ProjectHome.getIdProjectsList( new java.util.HashMap<>( ), null, null );
+        ProjectXPage xpage = new ProjectXPage( );
+        assertNotNull( xpage.getCreateProject( request ) );
 
-		assertTrue( !listIds.isEmpty( ) );
+        request = new MockHttpServletRequest( );
+        request.addParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "createProject" ) );
 
-		request = new MockHttpServletRequest();
-		request.addParameter( "id", String.valueOf( listIds.get( 0 ) ) );
+        LocalVariables.setLocal( config, request, response );
 
-		assertNotNull( xpage.getModifyProject( request ) );
+        request.addParameter( "action", "createProject" );
+        request.addParameter( "name", NAME1 );
+        request.addParameter( "description", DESCRIPTION1 );
+        request.addParameter( "image_url", IMAGEURL1 );
+        request.addParameter( "cost", String.valueOf( COST1 ) );
+        request.setMethod( "POST" );
 
-		response = new MockHttpServletResponse();
-		request = new MockHttpServletRequest();
-		LocalVariables.setLocal(config, request, response);
-		
-        request.addParameter( "name" , NAME2 );
-        request.addParameter( "description" , DESCRIPTION2 );
-        request.addParameter( "image_url" , IMAGEURL2 );
-		request.addParameter("cost", String.valueOf( COST2 ) );
+        assertNotNull( xpage.doCreateProject( request ) );
 
-		request.addParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "modifyProject" ));
-		request.addParameter( "id", String.valueOf( listIds.get( 0 ) ) );
-		
-		assertNotNull( xpage.doModifyProject( request ) );
+        // modify Project
+        List<Integer> listIds = ProjectHome.getIdProjectsList( new java.util.HashMap<>( ), null, null );
 
-		//do confirm remove Project
-		request = new MockHttpServletRequest();
-		request.addParameter( "action" , "confirmRemoveProject" );
-		request.addParameter( "id", String.valueOf( listIds.get( 0 ) ) );
-		request.addParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "confirmRemoveProject" ));;
-		request.setMethod("GET");
+        assertTrue( !listIds.isEmpty( ) );
 
-		try
-		{
-			xpage.getConfirmRemoveProject( request );
-		}
-		catch(Exception e)
-		{
-			assertTrue(e instanceof SiteMessageException);
-		}
+        request = new MockHttpServletRequest( );
+        request.addParameter( "id", String.valueOf( listIds.get( 0 ) ) );
 
-		//do remove Project
-		response = new MockHttpServletResponse();
-		request = new MockHttpServletRequest();
-		LocalVariables.setLocal(config, request, response);
-		request.addParameter( "action" , "removeProject" );
-		request.addParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "removeProject" ));
-		request.addParameter( "id", String.valueOf( listIds.get( 0 ) ) );
-		assertNotNull( xpage.doRemoveProject( request ) );
+        assertNotNull( xpage.getModifyProject( request ) );
+
+        response = new MockHttpServletResponse( );
+        request = new MockHttpServletRequest( );
+        LocalVariables.setLocal( config, request, response );
+
+        request.addParameter( "name", NAME2 );
+        request.addParameter( "description", DESCRIPTION2 );
+        request.addParameter( "image_url", IMAGEURL2 );
+        request.addParameter( "cost", String.valueOf( COST2 ) );
+
+        request.addParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "modifyProject" ) );
+        request.addParameter( "id", String.valueOf( listIds.get( 0 ) ) );
+
+        assertNotNull( xpage.doModifyProject( request ) );
+
+        // do confirm remove Project
+        request = new MockHttpServletRequest( );
+        request.addParameter( "action", "confirmRemoveProject" );
+        request.addParameter( "id", String.valueOf( listIds.get( 0 ) ) );
+        request.addParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "confirmRemoveProject" ) );
+        ;
+        request.setMethod( "GET" );
+
+        try
+        {
+            xpage.getConfirmRemoveProject( request );
+        }
+        catch( Exception e )
+        {
+            assertTrue( e instanceof SiteMessageException );
+        }
+
+        // do remove Project
+        response = new MockHttpServletResponse( );
+        request = new MockHttpServletRequest( );
+        LocalVariables.setLocal( config, request, response );
+        request.addParameter( "action", "removeProject" );
+        request.addParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "removeProject" ) );
+        request.addParameter( "id", String.valueOf( listIds.get( 0 ) ) );
+        assertNotNull( xpage.doRemoveProject( request ) );
 
     }
-    
+
 }

@@ -32,14 +32,12 @@
  * License 1.0
  */
 
-
- package fr.paris.lutece.plugins.examplemuz.business;
+package fr.paris.lutece.plugins.examplemuz.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
-
 
 import java.util.List;
 import java.util.Map;
@@ -57,14 +55,16 @@ public final class ProjectHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private ProjectHome(  )
+    private ProjectHome( )
     {
     }
 
     /**
      * Create an instance of the project class
-     * @param project The instance of the Project which contains the informations to store
-     * @return The  instance of project which has been created with its primary key.
+     * 
+     * @param project
+     *            The instance of the Project which contains the informations to store
+     * @return The instance of project which has been created with its primary key.
      */
     public static Project create( Project project )
     {
@@ -75,8 +75,10 @@ public final class ProjectHome
 
     /**
      * Update of the project which is specified in parameter
-     * @param project The instance of the Project which contains the data to store
-     * @return The instance of the  project which has been updated
+     * 
+     * @param project
+     *            The instance of the Project which contains the data to store
+     * @return The instance of the project which has been updated
      */
     public static Project update( Project project )
     {
@@ -87,7 +89,9 @@ public final class ProjectHome
 
     /**
      * Remove the project whose identifier is specified in parameter
-     * @param nKey The project Id
+     * 
+     * @param nKey
+     *            The project Id
      */
     public static void remove( int nKey )
     {
@@ -96,7 +100,9 @@ public final class ProjectHome
 
     /**
      * Returns an instance of a project whose identifier is specified in parameter
-     * @param nKey The project primary key
+     * 
+     * @param nKey
+     *            The project primary key
      * @return an instance of Project
      */
     public static Optional<Project> findByPrimaryKey( int nKey )
@@ -106,38 +112,45 @@ public final class ProjectHome
 
     /**
      * Load the data of all the project objects and returns them as a list
+     * 
      * @return the list which contains the data of all the project objects
      */
     public static List<Project> getProjectsList( )
     {
         return _dao.selectProjectsList( _plugin );
     }
-    
-        /**
+
+    /**
      * Load the id of all the project objects and returns them as a list
-     * @param mapFilterCriteria contains search bar names/values inputs 
-     * @param strColumnToOrder contains the column name to use for orderBy statement in case of sorting request (must be null)
-     * @param strSortMode contains the sortMode in case of sorting request : ASC or DESC (must be null)
+     * 
+     * @param mapFilterCriteria
+     *            contains search bar names/values inputs
+     * @param strColumnToOrder
+     *            contains the column name to use for orderBy statement in case of sorting request (must be null)
+     * @param strSortMode
+     *            contains the sortMode in case of sorting request : ASC or DESC (must be null)
      * @return the list which contains the id of all the project objects
      */
-    public static List<Integer> getIdProjectsList( Map <String,String> mapFilterCriteria, String strColumnToOrder, String strSortMode )
+    public static List<Integer> getIdProjectsList( Map<String, String> mapFilterCriteria, String strColumnToOrder, String strSortMode )
     {
-        return _dao.selectIdProjectsList( _plugin,mapFilterCriteria,strColumnToOrder,strSortMode );
+        return _dao.selectIdProjectsList( _plugin, mapFilterCriteria, strColumnToOrder, strSortMode );
     }
-    
+
     /**
      * Load the data of all the project objects and returns them as a referenceList
+     * 
      * @return the referenceList which contains the data of all the project objects
      */
     public static ReferenceList getProjectsReferenceList( )
     {
         return _dao.selectProjectsReferenceList( _plugin );
     }
-    
-	
+
     /**
      * Load the data of all the avant objects and returns them as a list
-     * @param listIds liste of ids
+     * 
+     * @param listIds
+     *            liste of ids
      * @return the list which contains the data of all the avant objects
      */
     public static List<Project> getProjectsListByIds( List<Integer> listIds )
@@ -146,4 +159,3 @@ public final class ProjectHome
     }
 
 }
-

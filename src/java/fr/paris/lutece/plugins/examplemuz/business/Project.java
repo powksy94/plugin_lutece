@@ -41,6 +41,7 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 import java.io.Serializable;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
+
 /**
  * This is the business class for the object Project
  */
@@ -48,23 +49,24 @@ public class Project implements Serializable, IExtendableResource
 {
     private static final long serialVersionUID = 1L;
 
-    // Variables declarations 
+    // Variables declarations
     private int _nId;
-    
+
     @NotEmpty( message = "#i18n{examplemuz.validation.project.Name.notEmpty}" )
-    @Size( max = 50 , message = "#i18n{examplemuz.validation.project.Name.size}" ) 
+    @Size( max = 50, message = "#i18n{examplemuz.validation.project.Name.size}" )
     private String _strName;
-    
+
     @NotEmpty( message = "#i18n{examplemuz.validation.project.Description.notEmpty}" )
-    @Size( max = 255 , message = "#i18n{examplemuz.validation.project.Description.size}" ) 
+    @Size( max = 255, message = "#i18n{examplemuz.validation.project.Description.size}" )
     private String _strDescription;
     @URL( message = "#i18n{portal.validation.message.url}" )
     @NotEmpty( message = "#i18n{examplemuz.validation.project.ImageUrl.notEmpty}" )
-    @Size( max = 255 , message = "#i18n{examplemuz.validation.project.ImageUrl.size}" ) 
+    @Size( max = 255, message = "#i18n{examplemuz.validation.project.ImageUrl.size}" )
     private String _strImageUrl;
 
     /**
      * Returns the Id
+     * 
      * @return The Id
      */
     public int getId( )
@@ -74,15 +76,18 @@ public class Project implements Serializable, IExtendableResource
 
     /**
      * Sets the Id
-     * @param nId The Id
-     */ 
+     * 
+     * @param nId
+     *            The Id
+     */
     public void setId( int nId )
     {
         _nId = nId;
     }
-    
+
     /**
      * Returns the Name
+     * 
      * @return The Name
      */
     public String getName( )
@@ -92,16 +97,18 @@ public class Project implements Serializable, IExtendableResource
 
     /**
      * Sets the Name
-     * @param strName The Name
-     */ 
+     * 
+     * @param strName
+     *            The Name
+     */
     public void setName( String strName )
     {
         _strName = strName;
     }
-    
-    
+
     /**
      * Returns the Description
+     * 
      * @return The Description
      */
     public String getDescription( )
@@ -111,16 +118,18 @@ public class Project implements Serializable, IExtendableResource
 
     /**
      * Sets the Description
-     * @param strDescription The Description
-     */ 
+     * 
+     * @param strDescription
+     *            The Description
+     */
     public void setDescription( String strDescription )
     {
         _strDescription = strDescription;
     }
-    
-    
+
     /**
      * Returns the ImageUrl
+     * 
      * @return The ImageUrl
      */
     public String getImageUrl( )
@@ -130,11 +139,13 @@ public class Project implements Serializable, IExtendableResource
 
     /**
      * Sets the ImageUrl
-     * @param strImageUrl The ImageUrl
-     */ 
+     * 
+     * @param strImageUrl
+     *            The ImageUrl
+     */
     public void setImageUrl( String strImageUrl )
     {
-        _strImageUrl = strImageUrl;  
+        _strImageUrl = strImageUrl;
     }
 
     @Min( value = 5, message = "#i18n{examplemuz.validation.project.Cost.min}" )

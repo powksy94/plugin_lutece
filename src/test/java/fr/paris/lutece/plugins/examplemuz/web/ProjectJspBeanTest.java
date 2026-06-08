@@ -23,7 +23,7 @@
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
  * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES LOSS OF USE, DATA, OR PROFITS OR BUSINESS
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
@@ -31,7 +31,6 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.plugins.examplemuz.web;
 
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -48,6 +47,7 @@ import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.plugins.examplemuz.business.Project;
 import fr.paris.lutece.plugins.examplemuz.business.ProjectHome;
+
 /**
  * This is the business class test for the object Project
  */
@@ -57,138 +57,135 @@ public class ProjectJspBeanTest extends LuteceTestCase
     private static final String NAME2 = "Name2";
     private static final String DESCRIPTION1 = "Description1";
     private static final String DESCRIPTION2 = "Description2";
-	private static final String IMAGEURL1 = "http://imageurl1.com";
+    private static final String IMAGEURL1 = "http://imageurl1.com";
     private static final String IMAGEURL2 = "http://imageurl2.com";
 
-public void testJspBeans(  ) throws AccessDeniedException, IOException
-	{	
-     	MockHttpServletRequest request = new MockHttpServletRequest();
-		MockHttpServletResponse response = new MockHttpServletResponse();
-		MockServletConfig config = new MockServletConfig();
+    public void testJspBeans( ) throws AccessDeniedException, IOException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
+        MockServletConfig config = new MockServletConfig( );
 
-		//display admin Project management JSP
-		ProjectJspBean jspbean = new ProjectJspBean();
-		String html = jspbean.getManageProjects( request );
-		assertNotNull(html);
+        // display admin Project management JSP
+        ProjectJspBean jspbean = new ProjectJspBean( );
+        String html = jspbean.getManageProjects( request );
+        assertNotNull( html );
 
-		//display admin Project creation JSP
-		html = jspbean.getCreateProject( request );
-		assertNotNull(html);
+        // display admin Project creation JSP
+        html = jspbean.getCreateProject( request );
+        assertNotNull( html );
 
-		//action create Project
-		request = new MockHttpServletRequest();
+        // action create Project
+        request = new MockHttpServletRequest( );
 
-		response = new MockHttpServletResponse( );
-		AdminUser adminUser = new AdminUser( );
-		adminUser.setAccessCode( "admin" );
-		
-        
-        request.addParameter( "name" , NAME1 );
-        request.addParameter( "description" , DESCRIPTION1 );
-        request.addParameter( "image_url" , IMAGEURL1 );
-		request.addParameter("action","createProject");
-        request.addParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "createProject" ));
-		request.setMethod( "POST" );
-        
-		
-		try 
-		{
-			AdminAuthenticationService.getInstance( ).registerUser(request, adminUser);
-			html = jspbean.processController( request, response ); 
-			
-			
-			// MockResponse object does not redirect, result is always null
-			assertNull( html );
-		}
-		catch (AccessDeniedException e)
-		{
-			fail("access denied");
-		}
-		catch (UserNotSignedException e) 
-		{
-			fail("user not signed in");
-		}
+        response = new MockHttpServletResponse( );
+        AdminUser adminUser = new AdminUser( );
+        adminUser.setAccessCode( "admin" );
 
-		//display modify Project JSP
-		request = new MockHttpServletRequest();
-        request.addParameter( "name" , NAME1 );
-        request.addParameter( "description" , DESCRIPTION1 );
-        request.addParameter( "image_url" , IMAGEURL1 );
-		List<Integer> listIds = ProjectHome.getIdProjectsList( new java.util.HashMap<>( ), null, null );
+        request.addParameter( "name", NAME1 );
+        request.addParameter( "description", DESCRIPTION1 );
+        request.addParameter( "image_url", IMAGEURL1 );
+        request.addParameter( "action", "createProject" );
+        request.addParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "createProject" ) );
+        request.setMethod( "POST" );
+
+        try
+        {
+            AdminAuthenticationService.getInstance( ).registerUser( request, adminUser );
+            html = jspbean.processController( request, response );
+
+            // MockResponse object does not redirect, result is always null
+            assertNull( html );
+        }
+        catch( AccessDeniedException e )
+        {
+            fail( "access denied" );
+        }
+        catch( UserNotSignedException e )
+        {
+            fail( "user not signed in" );
+        }
+
+        // display modify Project JSP
+        request = new MockHttpServletRequest( );
+        request.addParameter( "name", NAME1 );
+        request.addParameter( "description", DESCRIPTION1 );
+        request.addParameter( "image_url", IMAGEURL1 );
+        List<Integer> listIds = ProjectHome.getIdProjectsList( new java.util.HashMap<>( ), null, null );
         assertTrue( !listIds.isEmpty( ) );
         request.addParameter( "id", String.valueOf( listIds.get( 0 ) ) );
-		jspbean = new ProjectJspBean();
-		
-		assertNotNull( jspbean.getModifyProject( request ) );	
+        jspbean = new ProjectJspBean( );
 
-		//action modify Project
-		request = new MockHttpServletRequest();
-		response = new MockHttpServletResponse();
-		
-		adminUser = new AdminUser();
-		adminUser.setAccessCode("admin");
-		
-        request.addParameter( "name" , NAME2 );
-        request.addParameter( "description" , DESCRIPTION2 );
-        request.addParameter( "image_url" , IMAGEURL2 );
-		request.setRequestURI("jsp/admin/plugins/example/ManageProjects.jsp");
-		//important pour que MVCController sache quelle action effectuer, sinon, il redirigera vers createProject, qui est l'action par défaut
-		request.addParameter("action","modifyProject");
-		request.addParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "modifyProject" ));
+        assertNotNull( jspbean.getModifyProject( request ) );
 
-		try 
-		{
-			AdminAuthenticationService.getInstance( ).registerUser(request, adminUser);
-			html = jspbean.processController( request, response );
+        // action modify Project
+        request = new MockHttpServletRequest( );
+        response = new MockHttpServletResponse( );
 
-			// MockResponse object does not redirect, result is always null
-			assertNull( html );
-		}
-		catch (AccessDeniedException e)
-		{
-			fail("access denied");
-		}
-		catch (UserNotSignedException e) 
-		{
-			fail("user not signed in");
-		}
-		
-		//get remove Project
-		request = new MockHttpServletRequest();
-        //request.setRequestURI("jsp/admin/plugins/example/ManageProjects.jsp");
+        adminUser = new AdminUser( );
+        adminUser.setAccessCode( "admin" );
+
+        request.addParameter( "name", NAME2 );
+        request.addParameter( "description", DESCRIPTION2 );
+        request.addParameter( "image_url", IMAGEURL2 );
+        request.setRequestURI( "jsp/admin/plugins/example/ManageProjects.jsp" );
+        // important pour que MVCController sache quelle action effectuer, sinon, il redirigera vers createProject, qui est l'action par défaut
+        request.addParameter( "action", "modifyProject" );
+        request.addParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "modifyProject" ) );
+
+        try
+        {
+            AdminAuthenticationService.getInstance( ).registerUser( request, adminUser );
+            html = jspbean.processController( request, response );
+
+            // MockResponse object does not redirect, result is always null
+            assertNull( html );
+        }
+        catch( AccessDeniedException e )
+        {
+            fail( "access denied" );
+        }
+        catch( UserNotSignedException e )
+        {
+            fail( "user not signed in" );
+        }
+
+        // get remove Project
+        request = new MockHttpServletRequest( );
+        // request.setRequestURI("jsp/admin/plugins/example/ManageProjects.jsp");
         request.addParameter( "id", String.valueOf( listIds.get( 0 ) ) );
-		jspbean = new ProjectJspBean();
-		request.addParameter("action","confirmRemoveProject");
-		assertNotNull( jspbean.getModifyProject( request ) );
-				
-		//do remove Project
-		request = new MockHttpServletRequest();
-		response = new MockHttpServletResponse();
-		request.setRequestURI("jsp/admin/plugins/example/ManageProjectts.jsp");
-		//important pour que MVCController sache quelle action effectuer, sinon, il redirigera vers createProject, qui est l'action par défaut
-		request.addParameter("action","removeProject");
-		request.addParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "removeProject" ));
-		request.addParameter( "id", String.valueOf( listIds.get( 0 ) ) );
-		request.setMethod("POST");
-		adminUser = new AdminUser();
-		adminUser.setAccessCode("admin");
+        jspbean = new ProjectJspBean( );
+        request.addParameter( "action", "confirmRemoveProject" );
+        assertNotNull( jspbean.getModifyProject( request ) );
 
-		try 
-		{
-			AdminAuthenticationService.getInstance( ).registerUser(request, adminUser);
-			html = jspbean.processController( request, response ); 
+        // do remove Project
+        request = new MockHttpServletRequest( );
+        response = new MockHttpServletResponse( );
+        request.setRequestURI( "jsp/admin/plugins/example/ManageProjectts.jsp" );
+        // important pour que MVCController sache quelle action effectuer, sinon, il redirigera vers createProject, qui est l'action par défaut
+        request.addParameter( "action", "removeProject" );
+        request.addParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "removeProject" ) );
+        request.addParameter( "id", String.valueOf( listIds.get( 0 ) ) );
+        request.setMethod( "POST" );
+        adminUser = new AdminUser( );
+        adminUser.setAccessCode( "admin" );
 
-			// MockResponse object does not redirect, result is always null
-			assertNull( html );
-		}
-		catch (AccessDeniedException e)
-		{
-			fail("access denied");
-		}
-		catch (UserNotSignedException e) 
-		{
-			fail("user not signed in");
-		}	
-     
-     }
+        try
+        {
+            AdminAuthenticationService.getInstance( ).registerUser( request, adminUser );
+            html = jspbean.processController( request, response );
+
+            // MockResponse object does not redirect, result is always null
+            assertNull( html );
+        }
+        catch( AccessDeniedException e )
+        {
+            fail( "access denied" );
+        }
+        catch( UserNotSignedException e )
+        {
+            fail( "user not signed in" );
+        }
+
+    }
 }
