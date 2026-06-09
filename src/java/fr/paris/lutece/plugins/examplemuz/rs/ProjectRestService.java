@@ -35,6 +35,9 @@ package fr.paris.lutece.plugins.examplemuz.rs;
 
 import fr.paris.lutece.plugins.examplemuz.business.Project;
 import fr.paris.lutece.plugins.examplemuz.business.ProjectHome;
+import fr.paris.lutece.plugins.extend.modules.hit.business.Hit;
+import fr.paris.lutece.plugins.extend.modules.hit.service.IHitService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -45,6 +48,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Optional;
 
 @Path( "/rest/examplemuz" )
 public class ProjectRestService
@@ -95,7 +99,7 @@ public class ProjectRestService
             return Response.ok( cachedResult ).build( );
         }
 
-        java.util.Optional<Project> optProject = ProjectHome.findByPrimaryKey( nId );
+        Optional<Project> optProject = ProjectHome.findByPrimaryKey( nId );
         if ( !optProject.isPresent( ) )
         {
             return Response.status( Response.Status.NOT_FOUND )
@@ -113,5 +117,45 @@ public class ProjectRestService
         String strResult = json.toString( );
         ProjectCacheService.getInstance( ).putInCache( strKey, strResult );
         return Response.ok( strResult ).build();
+    }
+
+    @GET
+    @Path( "/projects/{id}/views" )
+    @Produces( MediaType.APPLICATION_JSON )
+    public Response getProjectWithViews( @PathParam( "id" ) String strId )
+    {
+        int nId;
+        try {
+            nId = Integer.parseInt( strId );
+        }
+        catch (NumberFormatException e) 
+        {
+            return Response.status( Response.Status.BAD_REQUEST )
+                    .entity( "{\"error\":\"Invalid id\"}" )
+                    .build( );
+        }
+
+        Optional<Project> optProject = ProjectHome.findByPrimaryKey( nId );
+        if ( !optProject.isPresent( ) )
+        {
+            return Response.status( Response.Status.NOT_FOUND )
+                    .entity( "{\"error\":\"Project not found\"}" )
+                    .build( );
+        }
+
+        Project project = optProject.get( );
+        IHitService hitService = SpringContextService.getBean( "extend.hitService" );
+        Hit hit = hitService.findByParameters( String.valueOf( nId ), "project" );
+        int nNbViews = ( hit != null ) ? hit.getNbHits( ) : 0;
+
+        ObjectMapper mapper = new ObjectMapper( );
+        ObjectNode json = mapper.createObjectNode( );
+        json.put( "id", project.getId( ) );
+        json.put( "name", project.getName( ) );
+        json.put( "description", project.getDescription( ) );
+        json.put( "cost", project.getCostInEuros( ) );
+        json.put( "nbViews", nNbViews );
+
+        return Response.ok( json.toString( ) ).build( );
     }
 }
