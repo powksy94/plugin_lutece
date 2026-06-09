@@ -48,6 +48,8 @@ public class ProjectBusinessTest extends LuteceTestCase
     private static final String DESCRIPTION2 = "Description2";
     private static final String IMAGEURL1 = "ImageUrl1";
     private static final String IMAGEURL2 = "ImageUrl2";
+    private static final int COST1 = 10;
+    private static final int COST2 = 25;
 
     /**
      * test Project
@@ -59,6 +61,7 @@ public class ProjectBusinessTest extends LuteceTestCase
         project.setName( NAME1 );
         project.setDescription( DESCRIPTION1 );
         project.setImageUrl( IMAGEURL1 );
+        project.setCost( COST1 );
 
         // Create test
         ProjectHome.create( project );
@@ -67,11 +70,13 @@ public class ProjectBusinessTest extends LuteceTestCase
         assertEquals( projectStored.getName( ), project.getName( ) );
         assertEquals( projectStored.getDescription( ), project.getDescription( ) );
         assertEquals( projectStored.getImageUrl( ), project.getImageUrl( ) );
+        assertEquals( projectStored.getCost( ), project.getCost( ) );
 
         // Update test
         project.setName( NAME2 );
         project.setDescription( DESCRIPTION2 );
         project.setImageUrl( IMAGEURL2 );
+        project.setCost( COST2 );
         ProjectHome.update( project );
         optProjectStored = ProjectHome.findByPrimaryKey( project.getId( ) );
         projectStored = optProjectStored.orElse( new Project( ) );
@@ -79,6 +84,7 @@ public class ProjectBusinessTest extends LuteceTestCase
         assertEquals( projectStored.getName( ), project.getName( ) );
         assertEquals( projectStored.getDescription( ), project.getDescription( ) );
         assertEquals( projectStored.getImageUrl( ), project.getImageUrl( ) );
+        assertEquals( projectStored.getCost( ), project.getCost( ) );
 
         // List test
         ProjectHome.getProjectsList( );

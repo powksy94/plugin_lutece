@@ -59,6 +59,8 @@ public class ProjectJspBeanTest extends LuteceTestCase
     private static final String DESCRIPTION2 = "Description2";
     private static final String IMAGEURL1 = "http://imageurl1.com";
     private static final String IMAGEURL2 = "http://imageurl2.com";
+    private static final String COST1 = "10";
+    private static final String COST2 = "25";
 
     public void testJspBeans( ) throws AccessDeniedException, IOException
     {
@@ -85,6 +87,7 @@ public class ProjectJspBeanTest extends LuteceTestCase
         request.addParameter( "name", NAME1 );
         request.addParameter( "description", DESCRIPTION1 );
         request.addParameter( "image_url", IMAGEURL1 );
+        request.addParameter( "cost", COST1 );
         request.addParameter( "action", "createProject" );
         request.addParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "createProject" ) );
         request.setMethod( "POST" );
@@ -111,6 +114,7 @@ public class ProjectJspBeanTest extends LuteceTestCase
         request.addParameter( "name", NAME1 );
         request.addParameter( "description", DESCRIPTION1 );
         request.addParameter( "image_url", IMAGEURL1 );
+        request.addParameter( "cost", COST2 );
         List<Integer> listIds = ProjectHome.getIdProjectsList( new java.util.HashMap<>( ), null, null );
         assertTrue( !listIds.isEmpty( ) );
         request.addParameter( "id", String.valueOf( listIds.get( 0 ) ) );
@@ -128,6 +132,7 @@ public class ProjectJspBeanTest extends LuteceTestCase
         request.addParameter( "name", NAME2 );
         request.addParameter( "description", DESCRIPTION2 );
         request.addParameter( "image_url", IMAGEURL2 );
+        request.addParameter( "cost", COST2 );
         request.setRequestURI( "jsp/admin/plugins/example/ManageProjects.jsp" );
         // important pour que MVCController sache quelle action effectuer, sinon, il redirigera vers createProject, qui est l'action par défaut
         request.addParameter( "action", "modifyProject" );
