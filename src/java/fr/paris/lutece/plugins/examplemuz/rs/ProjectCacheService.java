@@ -59,4 +59,9 @@ public class ProjectCacheService extends AbstractCacheableService
     {
         return SERVICE_NAME;
     }
+
+    public void removeKey( String strKey )
+    {
+        removeFromCache( strKey );
+    }
 }

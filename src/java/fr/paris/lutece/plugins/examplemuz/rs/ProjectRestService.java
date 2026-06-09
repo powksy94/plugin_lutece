@@ -44,8 +44,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-@Path( "/examplemuz" )
+@Path( "/rest/examplemuz" )
 public class ProjectRestService
 {
     @GET
@@ -73,20 +74,33 @@ public class ProjectRestService
     @GET
     @Path( "/projects/{id}" )
     @Produces( MediaType.APPLICATION_JSON )
-    public String getProject( @PathParam( "id" ) int nId )
+    public Response getProject( @PathParam( "id" ) String strId )
     {
+        int nId;
+        try 
+        {
+            nId = Integer.parseInt( strId );
+        } 
+        catch ( NumberFormatException e) 
+        {
+            return Response.status( Response.Status.BAD_REQUEST )
+                    .entity( "{\"error\":\"Invalid id\"}")
+                    .build( );
+        }
         String strKey = "project_" + nId;
 
         String cachedResult = (String) ProjectCacheService.getInstance( ).getFromCache( strKey );
         if ( cachedResult != null )
         {
-            return cachedResult;
+            return Response.ok( cachedResult ).build( );
         }
 
         java.util.Optional<Project> optProject = ProjectHome.findByPrimaryKey( nId );
         if ( !optProject.isPresent( ) )
         {
-            return "{}";
+            return Response.status( Response.Status.NOT_FOUND )
+                    .entity( "{\"error\":\"Project not found\"}" )
+                    .build();
         }
         Project project = optProject.get( );
         ObjectMapper mapper = new ObjectMapper( );
@@ -98,6 +112,6 @@ public class ProjectRestService
 
         String strResult = json.toString( );
         ProjectCacheService.getInstance( ).putInCache( strKey, strResult );
-        return strResult;
+        return Response.ok( strResult ).build();
     }
 }

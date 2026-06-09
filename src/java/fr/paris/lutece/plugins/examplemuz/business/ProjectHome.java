@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.plugins.examplemuz.rs.ProjectCacheService;
 
 import java.util.List;
 import java.util.Map;
@@ -83,6 +84,7 @@ public final class ProjectHome
     public static Project update( Project project )
     {
         _dao.store( project, _plugin );
+        ProjectCacheService.getInstance( ).removeKey( "project_" + project.getId( ) );
 
         return project;
     }
@@ -96,6 +98,7 @@ public final class ProjectHome
     public static void remove( int nKey )
     {
         _dao.delete( nKey, _plugin );
+        ProjectCacheService.getInstance( ).removeKey( "project_" + nKey);
     }
 
     /**

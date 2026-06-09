@@ -7,5 +7,14 @@
     <bean id="examplemuz.projectDAO" class="fr.paris.lutece.plugins.examplemuz.business.ProjectDAO" />
     <bean id="examplemuz.ProjectRest" class="fr.paris.lutece.plugins.examplemuz.rs.ProjectRestService" />
     <bean id="examplemuz.projectExtendableResourceService" class="fr.paris.lutece.plugins.examplemuz.business.ProjectExtendableResourceService" />
+    <bean id='rest.hashService' class='fr.paris.lutece.util.signrequest.security.Sha1HashService' />
+    <bean id='rest.requestAuthenticator' class='fr.paris.lutece.util.signrequest.HeaderHashAuthenticator'>
+        <property name='hashService' ref='rest.hashService' />
+        <property name='signatureElements'>
+            <list><value>key</value></list>
+        </property>
+        <property name='privateKey'><value>change me</value></property>
+        <property name='validityTimePeriod'><value>0</value></property>
+    </bean>
 
 </beans>
