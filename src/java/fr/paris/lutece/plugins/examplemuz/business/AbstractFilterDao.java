@@ -34,7 +34,6 @@
 package fr.paris.lutece.plugins.examplemuz.business;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -58,8 +57,6 @@ public abstract class AbstractFilterDao
     private final static String SQL_EQUAL = " = ? ";
     private final static String SQL_LIKE = " LIKE ? ";
     private final static String SQL_AND = " AND ";
-    private final static String SQL_ASC = " ASC ";
-    private final static String SQL_DESC = " DESC ";
 
     // types only allowed for research
     protected final static String TYPE_DATE = "Date";
@@ -118,24 +115,22 @@ public abstract class AbstractFilterDao
             {
 
                 // Check if a value was passed for the search
-                if ( StringUtils.isNotBlank( filter.getValue( ) ) )
+                if ( StringUtils.isNotBlank( filter.getValue( ) ) 
+                    && _mapSql.containsKey( filter.getKey( ) ) 
+                    && _listTypeAllowedForSearch.contains( _mapSql.get ( filter.getKey( ) ) ) )
                 {
-
-                    // Check if the criteria name match with a BDD column name and if the type of this column is allowed for a search
-                    if ( _mapSql.containsKey( filter.getKey( ) ) && _listTypeAllowedForSearch.contains( _mapSql.get( filter.getKey( ) ) ) )
-                    {
 
                         WhereClauses.append( SQL_AND );
                         WhereClauses.append( filter.getKey( ) );
                         WhereClauses.append( addWhereClauseOperator( filter.getKey( ) ) );
-                    }
+                    
                 }
             }
 
         }
 
         return WhereClauses.toString( );
-    };
+    }
 
     /**
      * add OrderBy columns to the filterStatement

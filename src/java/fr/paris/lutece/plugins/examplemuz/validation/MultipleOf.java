@@ -33,23 +33,44 @@
  */
 package fr.paris.lutece.plugins.examplemuz.validation;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import java.lang.annotation.*;
 
+/**
+ * Constraint annotation to validate that a value is a multiple of a number.
+ */
 @Documented
-@Constraint( validatedBy = MultipleOfValidator.class )
-@Target( {
-        ElementType.FIELD
-} )
-@Retention( RetentionPolicy.RUNTIME )
-public @interface MultipleOf
-{
-    int value( );
+@Constraint(validatedBy = MultipleOfValidator.class)
+@Target({ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MultipleOf {
+    /**
+     * The multiple value.
+     * @return multiple value.
+     */
+    int value();
 
-    String message( ) default "#i18n{examplemuz.validation.project.Cost.multipleOf}";
+    /**
+     * Error message.
+     * @return error message.
+     */
+    String message() default
+            "#i18n{examplemuz.validation.project.Cost.multipleOf}";
 
-    Class<?> [ ] groups( ) default { };
+    /**
+     * Validation groups.
+     * @return groups.
+     */
+    Class<?>[] groups() default {};
 
-    Class<? extends Payload> [ ] payload( ) default { };
+    /**
+     * Validation payload.
+     * @return payload.
+     */
+    Class<? extends Payload>[] payload() default {};
 }

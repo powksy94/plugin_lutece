@@ -50,9 +50,16 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Optional;
 
+/**
+ * REST service for Project resources.
+ */
 @Path( "/rest/examplemuz" )
-public class ProjectRestService
+public final class ProjectRestService
 {
+    /**
+     * Returns all projects.
+     * @return JSON string.
+     */
     @GET
     @Path( "/projects" )
     @Produces( MediaType.APPLICATION_JSON )
@@ -75,36 +82,35 @@ public class ProjectRestService
         return json.toString( );
     }
 
+    /**
+     * Returns a project by id.
+     * @param strId the project id.
+     * @return JSON response.
+     */
     @GET
     @Path( "/projects/{id}" )
     @Produces( MediaType.APPLICATION_JSON )
-    public Response getProject( @PathParam( "id" ) String strId )
+    public Response getProject( @PathParam("id") final String strId )
     {
         int nId;
-        try 
-        {
+        try {
             nId = Integer.parseInt( strId );
-        } 
-        catch ( NumberFormatException e) 
-        {
+        } catch ( NumberFormatException e ) {
             return Response.status( Response.Status.BAD_REQUEST )
-                    .entity( "{\"error\":\"Invalid id\"}")
+                    .entity( "{\"error\":\"Invalid id\"}" )
                     .build( );
         }
         String strKey = "project_" + nId;
-
-        String cachedResult = (String) ProjectCacheService.getInstance( ).getFromCache( strKey );
-        if ( cachedResult != null )
-        {
+        String cachedResult = (String) ProjectCacheService
+                .getInstance( ).getFromCache( strKey );
+        if ( cachedResult != null ) {
             return Response.ok( cachedResult ).build( );
         }
-
         Optional<Project> optProject = ProjectHome.findByPrimaryKey( nId );
-        if ( !optProject.isPresent( ) )
-        {
+        if ( !optProject.isPresent( ) ) {
             return Response.status( Response.Status.NOT_FOUND )
                     .entity( "{\"error\":\"Project not found\"}" )
-                    .build();
+                    .build( );
         }
         Project project = optProject.get( );
         ObjectMapper mapper = new ObjectMapper( );
@@ -113,41 +119,41 @@ public class ProjectRestService
         json.put( "name", project.getName( ) );
         json.put( "description", project.getDescription( ) );
         json.put( "cost", project.getCostInEuros( ) );
-
         String strResult = json.toString( );
         ProjectCacheService.getInstance( ).putInCache( strKey, strResult );
-        return Response.ok( strResult ).build();
+        return Response.ok( strResult ).build( );
     }
 
+    /**
+     * Returns a project with its view count.
+     * @param strId the project id.
+     * @return JSON response with view count.
+     */
     @GET
     @Path( "/projects/{id}/views" )
     @Produces( MediaType.APPLICATION_JSON )
-    public Response getProjectWithViews( @PathParam( "id" ) String strId )
+    public Response getProjectWithViews( @PathParam("id") final String strId )
     {
         int nId;
         try {
             nId = Integer.parseInt( strId );
-        }
-        catch (NumberFormatException e) 
-        {
+        } catch ( NumberFormatException e ) {
             return Response.status( Response.Status.BAD_REQUEST )
                     .entity( "{\"error\":\"Invalid id\"}" )
                     .build( );
         }
-
         Optional<Project> optProject = ProjectHome.findByPrimaryKey( nId );
-        if ( !optProject.isPresent( ) )
-        {
+        if ( !optProject.isPresent( ) ) {
             return Response.status( Response.Status.NOT_FOUND )
                     .entity( "{\"error\":\"Project not found\"}" )
                     .build( );
         }
-
         Project project = optProject.get( );
-        IHitService hitService = SpringContextService.getBean( "extend.hitService" );
-        Hit hit = hitService.findByParameters( String.valueOf( nId ), "project" );
+        IHitService hitService =
+                SpringContextService.getBean( "extend.hitService" );
+        Hit hit = hitService.findByParameters(
+                String.valueOf( nId ), "project" );
         int nNbViews = ( hit != null ) ? hit.getNbHits( ) : 0;
-
         ObjectMapper mapper = new ObjectMapper( );
         ObjectNode json = mapper.createObjectNode( );
         json.put( "id", project.getId( ) );
@@ -155,7 +161,6 @@ public class ProjectRestService
         json.put( "description", project.getDescription( ) );
         json.put( "cost", project.getCostInEuros( ) );
         json.put( "nbViews", nNbViews );
-
         return Response.ok( json.toString( ) ).build( );
     }
 }

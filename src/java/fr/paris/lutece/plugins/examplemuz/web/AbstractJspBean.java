@@ -34,7 +34,6 @@
 
 package fr.paris.lutece.plugins.examplemuz.web;
 
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.html.AbstractPaginator;
@@ -126,7 +125,7 @@ public abstract class AbstractJspBean<S, T> extends MVCAdminJspBean
     int getPluginDefaultNumberOfItemPerPage( )
     {
         return PROPERTY_DEFAULT_ITEM_PER_PAGE;
-    };
+    }
 
     /**
      * set _strCurrentPageIndex to null

@@ -36,21 +36,35 @@ package fr.paris.lutece.plugins.examplemuz.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class MultipleOfValidator implements ConstraintValidator<MultipleOf, Integer>
+/**
+ * Validator implementation for the MultipleOf constraint.
+ */
+public final class MultipleOfValidator
+        implements ConstraintValidator<MultipleOf, Integer>
 {
-    private int _nMultiple;
+    /** The multiple value. */
+    private int nMultiple;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void initialize( MultipleOf annotation )
+    public void initialize( final MultipleOf annotation )
     {
-        _nMultiple = annotation.value( );
+        nMultiple = annotation.value( );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public boolean isValid( Integer value, ConstraintValidatorContext context )
+    public boolean isValid( final Integer value,
+            final ConstraintValidatorContext context )
     {
         if ( value == null )
+        {
             return true;
-        return value % _nMultiple == 0;
+        }
+        return value % nMultiple == 0;
     }
 }
